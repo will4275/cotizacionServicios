@@ -1,3 +1,21 @@
+<?php
+require_once '../../controllers/Auth_controller.php';
+
+$auth = new Auth_controller();
+$message = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $result = $auth->login($_POST);
+
+    if (isset($result['error'])) {
+        $message = '<div class="alert alert-danger">' . $result['error'] . '</div>';
+    } else {
+        // Redirección después de login
+        header("Location: ../services-catalog.php");
+        exit;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,46 +40,48 @@
             Ingresa para continuar.
         </p>
 
-        <form>
-            <div class="mb-3">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    class="form-control" 
-                    placeholder="Ingresa tu email"
-                    required
-                >
-            </div>
+<form method="POST">
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    class="form-control" 
-                    placeholder="Contraseña"
-                    required
-                >
-            </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Correo electrónico</label>
+        <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            class="form-control" 
+            placeholder="Ingresa tu email"
+            required
+        >
+    </div>
 
-            <div class="mb-3 text-end">
-                <small>
-                    ¿No tienes cuenta? 
-                    <a href="register.php" class="text-primary fw-semibold">Regístrate</a>
-                </small>
-            </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            class="form-control" 
+            placeholder="Contraseña"
+            required
+        >
+    </div>
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary">
-                    Iniciar sesión
-                </button>
-            </div>
+    <div class="mb-3 text-end">
+        <small>
+            ¿No tienes cuenta? 
+            <a href="register.php" class="text-primary fw-semibold">Regístrate</a>
+        </small>
+    </div>
 
-            <p id="errorMessage" class="text-danger mt-3"></p>
-        </form>
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary">
+            Iniciar sesión
+        </button>
+    </div>
+
+    <?php echo $message; ?>
+
+</form>
 
     </div>
 

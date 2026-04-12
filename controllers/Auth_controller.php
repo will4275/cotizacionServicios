@@ -62,6 +62,37 @@
         }
         }
 
+        public function login($data)
+{
+    // Validar campos
+    if (empty($data['email']) || empty($data['password'])) {
+        return ['error' => 'Todos los campos son obligatorios.'];
+    }
+
+    $email = trim($data['email']);
+    $password = $data['password'];
+
+    // Buscar usuario
+    $user = $this->authModel->verificarUsuarioExiste(['email' => $email]);
+
+    if (!$user) {
+        return ['error' => 'Correo o contraseña incorrectos.'];
+    }
+
+    // Verificar contraseña
+    if (!password_verify($password, $user['usuario_contraseña'])) {
+        return ['error' => 'Correo o contraseña incorrectos.'];
+    }
+
+    // Iniciar sesión
+    session_start();
+    $_SESSION['user_id'] = $user['usuario_id'];
+    $_SESSION['user_name'] = $user['nombre_usuario'];
+    $_SESSION['user_role'] = $user['rol_id'];
+
+    return ['success' => 'Login exitoso'];
+}
+
     }
 
 
