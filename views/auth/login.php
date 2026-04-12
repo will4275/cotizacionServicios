@@ -14,7 +14,7 @@
     <div class="d-flex flex-col align-items-center justify-content-center gap-sm-5 p-sm-3 p-lg-5 mx-5 mt-3 mb-3 loginContainer">
         
       
-        <div class="col-6 pe-5 ">
+        <div class="col-6 col-sm-12 pe-5 ">
 
             <h1>
                 Iniciar sesión

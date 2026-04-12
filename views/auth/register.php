@@ -1,3 +1,19 @@
+<?php
+require_once '../../controllers/Auth_controller.php';
+$functions = new Auth_controller();
+
+$message = '';
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $result = $functions->register($_POST);
+    if (isset($result['error'])) {
+        $message = '<div class="alert alert-danger">' . $result['error'] . '</div>';
+    } elseif (isset($result['success'])) {
+        $message = '<div class="alert alert-success">' . $result['success'] . '</div>';
+        // Optionally redirect to login
+        // header("Location: login.php");
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,11 +27,8 @@
 <body class="d-flex align-items-center justify-content-center bodyCustom" style="height: 100vh;">
 
 
-    <div class="p-lg-5 mx-5 mt-3 mb-3 loginContainer">
+    <div class="p-lg-5 mx-5 mt- mb-3 loginContainer">
         
-        <div class="">
-            <h1 class="d-4"><span>Tu</span>Técnico</h1>
-        </div>
         <div class="d-flex justify-content-center align-items-center flex-column gap-2">
             <div class="text-center">
                 <h1>
@@ -26,8 +39,9 @@
                    
                 </div>
             </div>
-                <form class="col-8">
+                <form class="col-8 col-sm-12" method="POST" action="">
                 <div class="col-12">
+                    <?php echo $message; ?>
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre</label>
                         <input 
@@ -36,6 +50,20 @@
                             name="name" 
                             class="form-control" 
                             placeholder="nombre" 
+                            required
+            
+                        >
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Apellido</label>
+                        <input 
+                            type="text" 
+                            id="apellido" 
+                            name="apellido" 
+                            class="form-control" 
+                            placeholder="apellido" 
+                            required
             
                         >
 
@@ -48,6 +76,7 @@
                             name="email" 
                             class="form-control" 
                             placeholder="Ingresa tu email" 
+                            required
             
                         >
 
@@ -61,6 +90,7 @@
                             name="password" 
                             class="form-control p-2" 
                             placeholder="Contraseña"
+                            required
                             
                         >
 
@@ -73,6 +103,7 @@
                             name="confirmPassword" 
                             class="form-control" 
                             placeholder="confirma tu contraseña" 
+                            required
             
                         >
                     </div>
@@ -89,8 +120,8 @@
                     
 
                     <div class="d-flex flex-column">
-                        <p class="text-end mb-2">ya tienes cuenta? <a href="">inicia sesión</a></p>
-                        <button type="button" id="button12" class="btn btn-primary">
+                        <p class="text-end mb-2">ya tienes cuenta? <a href="login.php">inicia sesión</a></p>
+                        <button type="submit" id="button12" class="btn btn-primary">
                             Registrarse
                         </button>
                         <p class="text-center" id="validateAJAX">
