@@ -38,25 +38,35 @@
     <div class="close" id="cerrarModal">
       <i class="bi bi-x-circle-fill"></i>
     </div>
-    <div id="listaCarrito"></div>
+    <div id="listaCarrito" class="cart-items"></div>
 
-    <hr>
-    <div class="d-flex justify-content-between">
-      <strong>Subtotal:</strong> <span id="subtotal">0</span>
-    </div>
-    <div class="d-flex justify-content-between">
-     <strong>Descuento:</strong><span id="descuento">$0</span>
-    </div>
-    <div class="d-flex justify-content-between">
-      <strong>IVA (13%):</strong> <span id="iva">0</span>
-    </div>
-    <div class="d-flex justify-content-between fs-4">
-      <strong>Total:</strong> <span id="total">0</span>
-    </div>
-    <div class="mt-3">
-    <button id="btnCotizar" class="btn btn-primary w-100">
-        Cotizar
-    </button>
+    <div class="cart-summary w-100">
+      <div class="row g-2 align-items-center mb-3">
+        <div class="col-12 col-md-6">
+          <label class="form-label mb-1">Descuento</label>
+          <div class="fw-bold">5%</div>
+        </div>
+        <div class="col-12 col-md-6 text-md-end">
+          <label class="form-label mb-1">Subtotal</label>
+          <div class="fw-bold" id="subtotal">0.00</div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between mb-2">
+        <strong>Descuento:</strong>
+        <span id="descuento">$0.00</span>
+      </div>
+      <div class="d-flex justify-content-between mb-2">
+        <strong>IVA (13%):</strong>
+        <span id="iva">0.00</span>
+      </div>
+      <div class="d-flex justify-content-between fs-4 mb-3">
+        <strong>Total:</strong>
+        <span id="total">0.00</span>
+      </div>
+      <div class="d-flex gap-2 flex-wrap">
+        <button id="btnVaciarCarrito" class="btn btn-danger flex-fill">Vaciar carrito</button>
+        <button id="btnCotizar" class="btn btn-primary flex-fill">Cotizar</button>
+      </div>
     </div>
   </div>
 </section>
@@ -107,42 +117,15 @@
 
     <div class="container-lg">
         <div class="">
-            <ul class="navbar-nav d-flex flex-row justify-content-around text-center">
-                 <li class="nav-item mx-2">
-                    <button class="border-0 nav-link filtro" data-cat="Informática">Informática</button>
-                </li>
-                <li class="nav-item mx-2">
-                    <button class="border-0 nav-link filtro" data-cat="Redes">Redes</button>
-                </li>
-                <li class="nav-item mx-2">
-                    <button class="border-0 nav-link filtro" data-cat="Seguridad">Seguridad</button>
-                </li>
-                <li class="nav-item mx-2">
-                    <button class="border-0 nav-link filtro" data-cat="Servicios">Servicios</button>
-                </li>
+            <ul class="navbar-nav d-flex flex-row justify-content-around text-center" id="categorias">
+                 <!-- Categories will be loaded here -->
             </ul>
         </div>
         <!--aqui iran las cartas-->
         <div class="row align-items-start">
             <div class="col-md-12 col-lg-8 my-2">
                 <div class="row justify-content-center" id="contenedorServicios">
-
-                <!--aqui se cargaran las cartas-->
-                    <div class="col-md-4 col-lg-6 col-xl-4 col-5 my-2 d-flex">
-                      <div class="card border-1 rounded-3 shadow-sm h-100 w-100">
-                          <div class="card-body text-center py-3 align-items-center d-flex flex-column">
-                              <h4 class="card-title">Mantenimiento PC</h4>
-                              <p class="lead card-subtitle">Limpieza completa</p>
-                              <p class="display-5 my-4 text-primary fw-bold">$35</p>
-                              <p class="card-text mx-5 text-muted d-none d-lg-block">
-                                  Limpieza interna y optimización del sistema.
-                              </p>
-                              <a href="#" class="btn btn-outline-primary btn-lg mt-auto" onclick="addToCart(1); return false;">
-                                agregar
-                              </a>
-                          </div>
-                      </div>
-                  </div>
+                <!-- Cards will be loaded here -->
                 </div>
             </div>
            <div class="stickySection col-4 d-none d-lg-block my-3">
@@ -173,8 +156,11 @@
     </div>
     
 
-<script src="../public/assets/js/modal.js"></script>
-
+<script>
+    window.APP_BASE_URL = '/cotizacionServicios';
+</script>
+<script src="/cotizacionServicios/public/assets/js/modal.js"></script>
+<script src="/cotizacionServicios/public/assets/js/services.js"></script>
 
 </body>
 </html>
