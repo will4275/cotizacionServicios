@@ -1,31 +1,44 @@
-.custom-line
-{
-    line-height: 0.2;  
-}
-.loginContainer
-{
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 50px;
-    
-    /* THIS creates the focus effect */
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.25),  /* main shadow */
-        0 0 0 9999px rgba(0, 0, 0, 0.2);  /* dark overlay around */
-}
-.bodyCustom
-{
-    background: #d1d5db; /* darker gray */
+.custom-line {
+    line-height: 1.3;
 }
 
-@media (min-width: 992px) 
-{
-    .custom-img {
-        width: 450px;   /* fixed size */
-        height: auto;
+.bodyCustom {
+    background: #d1d5db;
+    position: relative;
+}
+
+.bodyCustom::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.2);
+    z-index: 0;
+}
+
+.loginContainer {
+    position: relative;
+    z-index: 1;
+
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+
+    max-width: 420px;
+    width: 100%;
+
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.15),
+        0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 992px) {
+    .loginContainer {
+        padding: 50px;
+        max-width: 600px;
     }
-    .loginContainer
-    {
-        width: 800px;
+
+    .custom-img {
+        width: 450px;
+        height: auto;
     }
 }
