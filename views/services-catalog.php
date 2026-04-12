@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+// 🔐 PROTECCIÓN DE ACCESO
+if (empty($_SESSION['user_id'])) {
+    header("Location: auth/login.php");
+    exit;
+}
+
+// (Opcional) datos del usuario
+$userName = $_SESSION['user_name'];
+$userRole = $_SESSION['user_role'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,14 +34,16 @@
                   <i class="bi bi-file-earmark-text "></i>
                   Cotizaciones
               </a> 
+               <a href="auth/logout.php" class="me-2 btn btn-danger btn-lg">Cerrar sesión</a>
               <button type="button" class="btn btn-warning btn-lg px-60" id="abrirCarrito">
                     <i class="bi bi-cart-fill"></i>
                     <span id="contadorCarrito"
                     class=" translate-middle badge rounded-pill  d-none p-0 m-0">0</span>
                 </button>
-
+                 
             </div>
         </div>
+        
     </header>
    
 <!-- Modal -->
