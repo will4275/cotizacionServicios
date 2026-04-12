@@ -1,0 +1,31 @@
+.custom-line
+{
+    line-height: 0.2;  
+}
+.loginContainer
+{
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 50px;
+    
+    /* THIS creates the focus effect */
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.25),  /* main shadow */
+        0 0 0 9999px rgba(0, 0, 0, 0.2);  /* dark overlay around */
+}
+.bodyCustom
+{
+    background: #d1d5db; /* darker gray */
+}
+
+@media (min-width: 992px) 
+{
+    .custom-img {
+        width: 450px;   /* fixed size */
+        height: auto;
+    }
+    .loginContainer
+    {
+        width: 800px;
+    }
+}
