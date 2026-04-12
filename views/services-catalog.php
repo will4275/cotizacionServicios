@@ -173,8 +173,8 @@
     </div>
     
 
-<script src="../assets/js/ajax.js"></script>
-<script src="../assets/js/service.js"></script>
+<script src="../public/assets/js/modal.js"></script>
+
 
 </body>
 </html>
