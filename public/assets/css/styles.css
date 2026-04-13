@@ -256,3 +256,19 @@ header .text-muted, header div {
     padding: 0.5rem 1rem;
     transition: all 0.3s ease;
 }
+/* Ajustes para el contador dinámico */
+#contadorCarrito {
+    z-index: 10;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    padding: 0.4em 0.6em;
+    min-width: 20px;
+    line-height: 1;
+    border: 2px solid white; /* Crea un borde blanco para resaltarlo del amarillo */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Forzar que el icono del carrito se vea bien con el badge */
+#abrirCarrito {
+    overflow: visible !important; /* Vital para que el badge no se corte */
+}

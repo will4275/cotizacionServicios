@@ -35,11 +35,13 @@ $userRole = $_SESSION['user_role'];
                   Cotizaciones
               </a> 
                <a href="auth/logout.php" class="me-2 btn btn-danger btn-lg">Cerrar sesión</a>
-              <button type="button" class="btn btn-warning btn-lg px-60" id="abrirCarrito">
-                    <i class="bi bi-cart-fill"></i>
-                    <span id="contadorCarrito"
-                    class=" translate-middle badge rounded-pill  d-none p-0 m-0">0</span>
-                </button>
+   <button type="button" class="btn btn-warning btn-lg px-4 position-relative" id="abrirCarrito">
+    <i class="bi bi-cart-fill"></i>
+    <span id="contadorCarrito" 
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">
+        0
+    </span>
+</button>
                  
             </div>
         </div>
@@ -56,12 +58,8 @@ $userRole = $_SESSION['user_role'];
     <div id="listaCarrito" class="cart-items"></div>
 
     <div class="cart-summary w-100">
-      <div class="row g-2 align-items-center mb-3">
-        <div class="col-12 col-md-6">
-          <label class="form-label mb-1">Descuento</label>
-          <div class="fw-bold">5%</div>
-        </div>
-        <div class="col-12 col-md-6 text-md-end">
+      <div class="row g-2 align-items-center mb-3">    
+        <div class="d-flex justify-content-between mb-2">
           <label class="form-label mb-1">Subtotal</label>
           <div class="fw-bold" id="subtotal">0.00</div>
         </div>
@@ -174,8 +172,9 @@ $userRole = $_SESSION['user_role'];
 <script>
     window.APP_BASE_URL = '/cotizacionServicios';
 </script>
-<script src="/cotizacionServicios/public/assets/js/modal.js"></script>
 <script src="/cotizacionServicios/public/assets/js/services.js"></script>
+<script src="/cotizacionServicios/public/assets/js/modal.js"></script>
+
 
 </body>
 </html>
