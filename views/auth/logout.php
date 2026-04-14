@@ -17,7 +17,7 @@ if (ini_get("session.use_cookies")) {
         $params["httponly"]
     );
 }
-
+session_destroy();
 // 🔥 redirigir al login
 header("Location: login.php");
 exit;

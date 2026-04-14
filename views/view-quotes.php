@@ -1,105 +1,78 @@
-<?php session_start();
-if (isset($_POST['vaciar_historial'])) {
-    unset($_SESSION['historial_cotizaciones']);
-}
-?>
+<?php
+if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
+require_once '../config/database.php';
+require_once '../models/quote_model.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$model = new QuoteModel($pdo);
+$user_id = $_SESSION['user_id'];
+$rol_id = $_SESSION['user_role'];
+
+// --- LÓGICA DE ELIMINACIÓN ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_id'])) {
+    // Tanto el Admin (Rechazar) como el Usuario (Cancelar) borrarán el dato
+    $model->eliminarCotizacion($_POST['eliminar_id']);
+    header("Location: view-quotes.php");
+    exit;
+}
+
+$cotizaciones = $model->obtenerListadoCotizaciones($user_id, $rol_id);
+?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Cotizaciones</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Historial de Cotizaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
-<div class="container my-5">
-
-    <!-- Encabezado -->
+<div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">📋 Cotizaciones Generadas</h2>
-        <a href="services-catalog.php" class="btn btn-primary">
-            ← Volver al Catálogo
-        </a>
+        <h2 class="fw-bold"><?= ($rol_id == 1) ? 'Cotizaciones Globales (Admin)' : 'Mis Cotizaciones' ?></h2>
+        <a href="services-catalog.php" class="btn btn-primary">← Volver al Catálogo</a>
     </div>
 
- <form method="POST">
-    <button type="submit" name="vaciar_historial" 
-            style="background:red;color:white;padding:8px;border:none;border-radius:5px;">
-        Vaciar Historial
-    </button>
-</form>
-    <!-- Visible desde md hacia arriba -->
-    <div class="table-responsive d-none d-md-block">
-
-        <table class="table table-bordered table-hover bg-white shadow-sm">
+    <div class="card shadow-sm border-0">
+        <table class="table table-hover align-middle mb-0">
             <thead class="table-dark">
                 <tr>
                     <th>Código</th>
                     <th>Cliente</th>
-                    <th>Fecha</th>
+                    <th>Empresa</th>
                     <th>Total</th>
-                    <th>Cantidad de Servicios</th>
+                    <th class="text-center">Acciones</th>
                 </tr>
             </thead>
-<tbody>
-
-<?php if (!empty($_SESSION['historial_cotizaciones'])): ?>
-
-    <?php foreach ($_SESSION['historial_cotizaciones'] as $cot): ?>
-        <tr>
-            <td><?= $cot['codigo'] ?></td>
-            <td><?= $cot['cliente'] ?></td>
-            <td><?= $cot['fecha'] ?></td>
-            <td>$<?= $cot['total'] ?></td>
-            <td><?= $cot['cantidad'] ?></td>
-        </tr>
-    <?php endforeach; ?>
-
-<?php else: ?>
-    <tr>
-        <td colspan="5" class="text-center">No hay cotizaciones aún</td>
-    </tr>
-<?php endif; ?>
-
-</tbody>
+            <tbody>
+                <?php foreach ($cotizaciones as $cot): ?>
+                    <tr>
+                        <td class="fw-bold text-primary"><?= $cot['cotizacion_id'] ?></td>
+                        <td><?= htmlspecialchars($cot['nombre_cliente']) ?></td>
+                        <td><?= htmlspecialchars($cot['empresa'] ?? 'Particular') ?></td>
+                        <td class="fw-bold">$<?= number_format($cot['total'], 2) ?></td>
+                        <td class="text-center">
+                            <form method="POST" onsubmit="return confirm('¿Estás seguro? Esta acción no se puede deshacer.');">
+                                <input type="hidden" name="eliminar_id" value="<?= $cot['cotizacion_id'] ?>">
+                                
+                                <?php if ($rol_id == 1): ?>
+                                    <button type="submit" class="btn btn-sm btn-danger">Rechazar y Eliminar</button>
+                                <?php else: ?>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Cancelar y Borrar</button>
+                                <?php endif; ?>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
         </table>
-
     </div>
-
-    
-    <!-- Visible solo en pantallas pequeñas -->
-    <div class="d-block d-md-none ">
-
-        <!-- CARD 1 -->
-        <div class="card mb-3 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title fw-bold">COT-001</h5>
-                <p class="mb-1"><strong>Cliente:</strong> Juan Pérez</p>
-                <p class="mb-1"><strong>Fecha:</strong> 2026-02-24</p>
-                <p class="mb-1"><strong>Total:</strong> $250.00</p>
-                <p class="mb-0"><strong>Servicios:</strong> 3</p>
-            </div>
-        </div>
-
-        <!-- CARD 2 -->
-        <div class="card mb-3 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title fw-bold">COT-002</h5>
-                <p class="mb-1"><strong>Cliente:</strong> Empresa XYZ</p>
-                <p class="mb-1"><strong>Fecha:</strong> 2026-02-23</p>
-                <p class="mb-1"><strong>Total:</strong> $480.00</p>
-                <p class="mb-0"><strong>Servicios:</strong> 5</p>
-            </div>
-        </div>
-
-    </div>
-
 </div>
-
 </body>
 </html>
